@@ -18,8 +18,8 @@ Para esta solução, utilizou-se ambas opções **Shell Script** ou **Ruby**.
 ### Para reproduzir a solução em ambiente de desenvolvimento local, realizar os seguintes passos:
 1. Instalação do [GitLab CE](https://about.gitlab.com/installation/). Será utilizado o Docker, mas qualquer forma de instalação pode ser utilizada.
 2. Criar e iniciar o _container_  com:
-`docker run --hostname localhost --publish 443:443 --publish 80:80 --publish 22:22 --name gitlab --restart always --volume /srv/gitlab/config:/etc/gitlab:Z --volume /srv/gitlab/logs:/var/log/gitlab:Z --volume /srv/gitlab/data:/var/opt/gitlab:Z gitlab/gitlab-ce:latest`
-    2.1. O processo para iniciar o GitLab pode demorar, basta aguardar e tentar acessar a página incial com http://localhost
+`docker run --hostname localhost --publish 443:443 --publish 80:80 --publish 22:22 --name gitlab --restart always --volume /srv/gitlab/config:/etc/gitlab:Z --volume /srv/gitlab/logs:/var/log/gitlab:Z --volume /srv/gitlab/data:/var/opt/gitlab:Z gitlab/gitlab-ce:latest`  
+    2.1. O processo para iniciar o GitLab pode demorar, basta aguardar e tentar acessar a página incial com http://localhost  
 3. Criar um novo repositório e adicionar o arquivo .gitlabfilelock, listando nomes de arquivos que não podem ser criados ou modificados por linha, exemplo:
     > arquivo01.txt
     > arquivo02
