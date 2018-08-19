@@ -1,6 +1,6 @@
 ### Sobre
-Solução para funcionalidade da versão Enterpreise do GitLab para travar mudanças em arquivo. Esse é um recurso pago do GitLab, buscando uma alternativa buscou-se outras soluções na internet, mas não foi encontrada uma única fonte que desenvolvesse a solução por completo ou mesmo atendesse todos os requisitos que buscava.
-Seu funcionamento é baseado na criação de um arquivo nomeado `.gitlabfilelock` na raiz de qualquer repositório e com a utilização de hooks customizados do GitLab. A ação irá validar se determinado arquivo está sendo modificado ou não na ação de PUSH, impedindo essa alteração.
+Solução para funcionalidade da versão Enterpreise do GitLab para travar mudanças em arquivo. Esse é um recurso pago do GitLab, buscando uma alternativa buscou-se outras soluções na internet, mas não foi encontrada uma única fonte que desenvolvesse a solução por completo ou mesmo atendesse todos os requisitos que buscava.  
+Seu funcionamento é baseado na criação de um arquivo nomeado `.gitlabfilelock` na raiz de qualquer repositório e com a utilização de hooks customizados do GitLab. A ação irá validar se determinado arquivo está sendo modificado ou não na ação de PUSH, impedindo essa alteração.  
 Conforme documentação, o arquivo `pre-receive` pode ser escrito em qualquer linguagem:
 > "Write the code to make the Git hook function as expected. Hooks can be in any language. Ensure the 'shebang' at the top properly reflects the language type."
 
