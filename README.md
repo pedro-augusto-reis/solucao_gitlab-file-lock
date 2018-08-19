@@ -11,7 +11,7 @@ Para esta solução, utilizou-se Shell Script.
 2. Trava de mudança para arquivos com mesmo nome, mas em diretórios diferentes; **OK**
 3. Criar regra de forma global, não tendo que ajustar arquivo `pre-receive` em cada projeto; **em andamento** 
 4. Criar solução que permita que apenas usuários com determinada [permissão](https://docs.gitlab.com/ee/user/permissions.html)  possa realizar mudanças no arquivo `.gitlabfilelock`; **em andamento**
-5. Informar todos os arquivos que foram modificados e estão na regra para não serem modificados de uma vez, em vez de informar o primeiro encontrado e retorna `exit 1`. **OK**
+5. Informar todos os arquivos que foram modificados e estão na regra para não serem modificados de uma vez, em vez de informar o primeiro encontrado e retornar `exit 1`. **OK**
 
 #### Para reproduzir a solução em ambiente de desenvolvimento local, realizar os seguintes passos:
 1. Instalação do [GitLab CE](https://about.gitlab.com/installation/). Será utilizado o Docker, mas qualquer forma de instalação pode ser utilizada.
