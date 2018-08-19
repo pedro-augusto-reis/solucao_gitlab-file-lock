@@ -21,9 +21,9 @@ Para esta solução, utilizou-se ambas opções **Shell Script** ou **Ruby**.
 `docker run --hostname localhost --publish 443:443 --publish 80:80 --publish 22:22 --name gitlab --restart always --volume /srv/gitlab/config:/etc/gitlab:Z --volume /srv/gitlab/logs:/var/log/gitlab:Z --volume /srv/gitlab/data:/var/opt/gitlab:Z gitlab/gitlab-ce:latest`  
     2.1. O processo para iniciar o GitLab pode demorar, basta aguardar e tentar acessar a página incial com http://localhost  
 3. Criar um novo repositório e adicionar o arquivo .gitlabfilelock, listando nomes de arquivos que não podem ser criados ou modificados por linha, exemplo:
-    > arquivo01.txt
-    > arquivo02
-    > src/main/arquivo03.java
+    > arquivo01.txt  
+    > arquivo02  
+    > src/main/arquivo03.java  
 4. Conforme [documentação](https://docs.gitlab.com/ee/administration/custom_hooks.html) do GitLab, criar em `/var/opt/gitlab/git-data/repositories/<group>/<project>.git` novo diretório `custom_hooks` e o arquivo hook [pre-receive](pre-receive).  
     4.1. Verificar se o arquivo é executável. Caso não seja, para ambiente de testes, utilizar o comando linux chmod + *.  
     4.2. Verificar se o owner do arquivo é Git. Caso não seja utilizar o comando linux chown git.git pre-receive.  
