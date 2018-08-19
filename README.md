@@ -11,7 +11,7 @@ Conforme documentação, o arquivo `pre-receive` pode ser escrito em qualquer li
 2. **OK** - ~~Trava de mudança para arquivos com mesmo nome, mas em diretórios diferentes~~;
 3. **OK** - ~~Informar todos os arquivos que foram modificados e estão na regra para não serem modificados de uma vez, em vez de informar o primeiro encontrado e retornar `exit 1`~~.
 4. **em andamento** - Criar regra de forma global, não tendo que ajustar arquivo `pre-receive` em cada projeto; 
-5. **em andamento** - Criar solução que permita que apenas usuários com determinada [permissão](https://docs.gitlab.com/ee/user/permissions.html)  possa realizar mudanças no arquivo `.gitlabfilelock`;
+5. **em andamento** - Criar solução que permita que apenas usuários com determinada [permissão](https://docs.gitlab.com/ee/user/permissions.html)  possam realizar mudanças no arquivo `.gitlabfilelock`;
 
 ### Para reproduzir a solução em ambiente de desenvolvimento local, realizar os seguintes passos:
 1. Instalação do [GitLab CE](https://about.gitlab.com/installation/). Será utilizado o Docker, mas qualquer forma de instalação pode ser utilizada.
