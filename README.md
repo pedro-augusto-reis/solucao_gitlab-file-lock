@@ -6,7 +6,7 @@ O funcionamento desta solução é baseado na criação de um arquivo nomeado `.
 Conforme [documentação](https://docs.gitlab.com/ee/administration/custom_hooks.html), o arquivo `pre-receive` pode ser escrito em qualquer linguagem:
 > "Write the code to make the Git hook function as expected. Hooks can be in any language. Ensure the 'shebang' at the top properly reflects the language type."
 
-Para esta solução, utilizou-se **Shell Script**.
+Para esta solução, utilizou-se ambas opções **Shell Script** ou **Ruby**.
 
 ### Metas
 1. **OK** - ~~Trava de mudança para arquivos a partir de outro arquivo descritor~~;
