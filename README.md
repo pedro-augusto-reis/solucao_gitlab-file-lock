@@ -26,4 +26,4 @@ Para esta solução, utilizou-se ambas opções **Shell Script** ou **Ruby**.
     > src/main/arquivo03.java  
 4. Conforme [documentação](https://docs.gitlab.com/ee/administration/custom_hooks.html) do GitLab, criar em `/var/opt/gitlab/git-data/repositories/<group>/<project>.git` novo diretório `custom_hooks` e o arquivo hook [pre-receive](pre-receive).  
     4.1. Verificar se o arquivo é executável. Caso não seja, para ambiente de testes, utilizar o comando linux `chmod +x pre-receive`;  
-    4.2. Verificar se o owner do arquivo é Git. Caso não seja utilizar o comando linux chown git.git pre-receive.  
+    4.2. Verificar se o owner do arquivo é Git. Caso não seja utilizar o comando linux `chown git.git pre-receive`.  
