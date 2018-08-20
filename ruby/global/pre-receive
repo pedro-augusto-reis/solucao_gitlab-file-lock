@@ -24,7 +24,7 @@ require 'json'
 # declaracao variaveis de uso da api GitLab para consulta de permissoes para determinado projeto
 projectId = gl_repository.split("-")[1]
 userId = key_id.split("-")[1]
-TOKEN = 'teexWvzDmWfSvhHEp27X' # alterar de acordo com o seu projeto
+TOKEN = 'teexWvzDmWfSvhHEp27X' # alterar de acordo com o Token gerado no GitLab
 URL = 'localhost' # alterar de acordo com seu projeto
 PERMISSOES = [40, 50]
 consultaApi = JSON.parse(`curl -s #{URL}/api/v4/projects/#{projectId}/members/#{userId}?private_token=#{TOKEN}`)
