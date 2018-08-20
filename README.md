@@ -1,5 +1,5 @@
 ### Sobre
-Solução para funcionalidade da versão paga, Enterpreise - EE, do GitLab para travar mudanças em arquivos. Buscando uma alternativa _free_ pesquisou-se  outras soluções na internet, mas não foi encontrada uma fonte que desenvolvesse a solução por completo ou mesmo atendesse todos os requisitos que se buscavam.  
+Solução para funcionalidade da versão paga, Enterpreise - EE, do GitLab para travar mudanças em arquivos. Buscando uma alternativa _free_, pesquisou-se  outras soluções na internet, mas não foi encontrada uma fonte que desenvolvesse a solução por completo ou mesmo atendesse todos os requisitos que se buscavam.  
 
 O funcionamento desta solução é baseado na criação de um arquivo nomeado `.gitlabfilelock`, na raiz de qualquer repositório GitLab, e com a utilização de um _hook_ customizado a ação irá validar se determinado arquivo está sendo modificado ou não ao realizarem o comando PUSH, impedindo  assim qualquer alteração.  
 
@@ -12,7 +12,7 @@ Para esta solução, utilizou-se ambas opções **Shell Script** ou **Ruby**.
 1. **OK** - ~~Trava de mudança para arquivos a partir de outro arquivo descritor~~;
 2. **OK** - ~~Trava de mudança para arquivos com mesmo nome, mas em diretórios diferentes~~;
 3. **OK** - ~~Informar todos os arquivos que foram modificados e estão na regra para não serem modificados de uma vez, em vez de informar o primeiro encontrado e retornar `exit 1`~~.
-4. **em andamento** - Criar regra de forma global, não tendo que ajustar arquivo `pre-receive` em cada projeto; 
+4. **OK - utilizando Ruby** - ~~Criar regra de forma global, não tendo que ajustar arquivo `pre-receive` em cada projeto~~; 
 5. **em andamento** - Criar solução que permita que apenas usuários com determinada [permissão](https://docs.gitlab.com/ee/user/permissions.html) possam realizar mudanças no arquivo `.gitlabfilelock`;
 
 ### Para reproduzir a solução em ambiente de desenvolvimento local, realizar os seguintes passos:
@@ -24,6 +24,7 @@ Para esta solução, utilizou-se ambas opções **Shell Script** ou **Ruby**.
     > arquivo01.txt  
     > arquivo02  
     > src/main/arquivo03.java  
-4. Conforme [documentação](https://docs.gitlab.com/ee/administration/custom_hooks.html) do GitLab, criar em `/var/opt/gitlab/git-data/repositories/<group>/<project>.git` novo diretório `custom_hooks` e o arquivo hook [pre-receive](pre-receive).  
-    4.1. Verificar se o arquivo é executável. Caso não seja, para ambiente de testes, utilizar o comando linux `chmod +x pre-receive`;  
-    4.2. Verificar se o owner do arquivo é Git. Caso não seja utilizar o comando linux `chown git.git pre-receive`.  
+4a. Conforme [documentação](https://docs.gitlab.com/ee/administration/custom_hooks.html) do GitLab, criar em `/var/opt/gitlab/git-data/repositories/<group>/<project>.git` novo diretório `custom_hooks` e o arquivo hook [pre-receive](pre-receive). Essa forma irá especificar o _ hook_ por projeto. 
+    4a.1. Verificar se o arquivo é executável. Caso não seja, para ambiente de testes, utilizar o comando linux `chmod +x pre-receive`;  
+    4a.2. Verificar se o owner do arquivo é Git. Caso não seja utilizar o comando linux `chown git.git pre-receive`.  
+4b. Para criar um _hook_ global que irá afetar todos os repositórios, criar ajustar o arquivo _pre-receive_ de `/opt/gitlab/embedded/service/gitlab-shell/hooks`, tomando o cuidado de não remover nenhuma linha de código que já existia.
