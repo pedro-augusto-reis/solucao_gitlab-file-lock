@@ -8,7 +8,8 @@
     > arquivo02  
     > src/main/arquivo03.java  
     
-4a. Conforme [documentação](https://docs.gitlab.com/ee/administration/custom_hooks.html) do GitLab, criar em `/var/opt/gitlab/git-data/repositories/<group>/<project>.git` novo diretório `custom_hooks` e o arquivo hook [pre-receive](pre-receive). Essa forma irá especificar o _ hook_ por projeto.  
-    4a.1. Verificar se o arquivo é executável. Caso não seja, para ambiente de testes, utilizar o comando linux `chmod +x pre-receive`;   
-    4a.2. Verificar se o owner do arquivo é Git. Caso não seja utilizar o comando linux `chown git.git pre-receive`.  
+4a. Conforme [documentação](https://docs.gitlab.com/ee/administration/custom_hooks.html) do GitLab, criar em `/var/opt/gitlab/git-data/repositories/<group>/<project>.git` novo diretório `custom_hooks` e o arquivo hook [pre-receive](pre-receive). Essa forma irá especificar o _ hook_ por projeto.
+> 4a.1. Verificar se o arquivo é executável. Caso não seja, para ambiente de testes, utilizar o comando linux `chmod +x pre-receive`;
+> 4a.2. Verificar se o owner do arquivo é Git. Caso não seja utilizar o comando linux `chown git.git pre-receive`.  
+
 4b. Para criar um _hook_ global que irá afetar todos os repositórios, ajustar o arquivo _pre-receive_ de `/opt/gitlab/embedded/service/gitlab-shell/hooks`, tomando o cuidado de não remover nenhuma linha de código que já existia.
