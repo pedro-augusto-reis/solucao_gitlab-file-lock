@@ -13,4 +13,4 @@ Para esta solução, utilizou-se ambas opções **Shell Script** ou **Ruby**.
 2. **OK** - ~~Trava de mudança para arquivos com mesmo nome, mas em diretórios diferentes~~;
 3. **OK** - ~~Informar todos os arquivos que foram modificados e estão na regra para não serem modificados de uma vez, em vez de informar o primeiro encontrado e retornar `exit 1`~~.
 4. **OK - apenas Ruby** - ~~Criar regra de forma global, não tendo que ajustar arquivo `pre-receive` em cada projeto~~; 
-5. **em andamento** - Criar solução que permita que apenas usuários com determinada [permissão](https://docs.gitlab.com/ee/user/permissions.html) possam realizar mudanças no arquivo `.gitlabfilelock`;
+5. **OK - apenas Ruby** - ~~Criar solução que permita que apenas usuários com determinada [permissão](https://docs.gitlab.com/ee/user/permissions.html) possam realizar mudanças no arquivo `.gitlabfilelock`~~;
