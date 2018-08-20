@@ -8,24 +8,6 @@ ENV['PATH'] = '/opt/gitlab/bin:/opt/gitlab/embedded/bin:' + ENV['PATH']
 # will be processed properly.
 
 refs = $stdin.read
-
-# Implementacao GitLab File Lock
-arrayHash = refs.split(" ")
-arrayArquivosModificados = `git diff --no-commit-id --name-only #{arrayHash[0]}..#{arrayHash[1]}`.split(" ")
-arrayGitLabFileLock = `git show #{arrayHash[1]}:.gitlabfilelock 2> /dev/null`.split(" ")
-
-if ((!arrayGitLabFileLock.nil?) && (arrayGitLabFileLock.length != 0) && ((arrayArquivosModificados & arrayGitLabFileLock).length != 0))
-  puts "******************************************************"
-  puts "****************** GitLab File Lock ******************"
-  puts "1) Arquivo travado pelo ADM do repositorio."
-  puts "2) Para conseguir realizar o PUSH, reverta o(s) \narquivo(s) abaixo informado(s) para a revisao anterior\nao commit que o modificou."
-  puts "------------------------------------------------------"
-  puts (arrayArquivosModificados & arrayGitLabFileLock)
-  puts "------------------------------------------------------"
-  exit 1
-end
-# Fim implementacao GitLab File Lock
-
 key_id = ENV.delete('GL_ID')
 protocol = ENV.delete('GL_PROTOCOL')
 repo_path = Dir.pwd
@@ -35,6 +17,47 @@ def increase_reference_counter(gl_repository, repo_path)
 
   result['reference_counter_increased']
 end
+
+# Implementacao GitLab File Lock
+require 'json'
+
+# declaracao variaveis de uso da api GitLab para consulta de permissoes para determinado projeto
+projectId = gl_repository.split("-")[1]
+userId = key_id.split("-")[1]
+TOKEN = 'teexWvzDmWfSvhHEp27X' # alterar de acordo com o seu projeto
+URL = 'localhost' # alterar de acordo com seu projeto
+PERMISSOES = [40, 50]
+consultaApi = JSON.parse(`curl -s #{URL}/api/v4/projects/#{projectId}/members/#{userId}?private_token=#{TOKEN}`)
+
+# declaracao variaveis para utilizacao de logica de arquivos modificados no push e leitura do arquivo .gitlabfilelock
+arrayHash = refs.split(" ")
+arrayArquivosModificados = `git diff --no-commit-id --name-only #{arrayHash[0]}..#{arrayHash[1]}`.split(" ")
+arrayGitLabFileLock = `git show #{arrayHash[1]}:.gitlabfilelock 2> /dev/null`.split(" ")
+
+isAcessoPermitido = PERMISSOES.include? consultaApi["access_level"]
+isValidGitLabFileLock = !arrayGitLabFileLock.nil? && arrayGitLabFileLock.length != 0
+existeArquivoComum = (arrayArquivosModificados & arrayGitLabFileLock).length != 0
+
+if ( !isAcessoPermitido && (arrayArquivosModificados.include? '.gitlabfilelock') )
+   puts "******************************************************"
+   puts "****************** GitLab File Lock ******************"
+   puts "Arquivo .gitlabfilelock so pode ser modificado pelo administrador do repositorio"
+   puts "******************************************************"
+   exit 1
+end
+
+if ( !isAcessoPermitido && isValidGitLabFileLock && existeArquivoComum )
+   puts "******************************************************"
+   puts "****************** GitLab File Lock ******************"
+   puts "1) Arquivo travado pelo ADM do repositorio."
+   puts "2) Para conseguir realizar o PUSH, reverta o(s) arquivo(s) abaixo informado(s) para a revisao anterior ao commit que o modificou."
+   puts "------------------------------------------------------"
+   puts (arrayArquivosModificados & arrayGitLabFileLock)
+   puts "------------------------------------------------------"
+   puts "******************************************************"
+   exit 1
+end
+# Fim implementacao GitLab File Lock
 
 require_relative '../lib/gitlab_custom_hook'
 require_relative '../lib/gitlab_access'
