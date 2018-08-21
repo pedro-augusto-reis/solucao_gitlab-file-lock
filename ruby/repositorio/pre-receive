@@ -1,19 +1,44 @@
 #!/usr/bin/env ruby
 
-params = gets
-arrayHash = params.split(" ")
+require 'json'
+
+refs = $stdin.read
+key_id = ENV.delete('GL_ID')
+repo_path = Dir.pwd
+gl_repository = ENV['GL_REPOSITORY']
+projectId = gl_repository.split("-")[1]
+userId = key_id.split("-")[1]
+TOKEN = 'teexWvzDmWfSvhHEp27X' # alterar de acordo com o Token gerado no GitLab
+URL = 'localhost' # alterar de acordo com seu projeto
+PERMISSOES = [40, 50]
+consultaApi = JSON.parse(`curl -s #{URL}/api/v4/projects/#{projectId}/members/#{userId}?private_token=#{TOKEN}`)
+
+arrayHash = refs.split(" ")
 arrayArquivosModificados = `git diff --no-commit-id --name-only #{arrayHash[0]}..#{arrayHash[1]}`.split(" ")
 arrayGitLabFileLock = `git show #{arrayHash[1]}:.gitlabfilelock 2> /dev/null`.split(" ")
 
-if ((!arrayGitLabFileLock.nil?) && (arrayGitLabFileLock.length != 0) && ((arrayArquivosModificados & arrayGitLabFileLock).length != 0))
-  puts "******************************************************"
-  puts "****************** GitLab File Lock ******************"
-  puts "1) Arquivo travado pelo ADM do repositorio."
-  puts "2) Para conseguir realizar o PUSH, reverta o(s) \narquivo(s) abaixo informado(s) para a revisao anterior\nao commit que o modificou."
-  puts "------------------------------------------------------"
-  puts (arrayArquivosModificados & arrayGitLabFileLock)
-  puts "------------------------------------------------------"
-  exit 1
-else
-  exit 0
+isAcessoPermitido = PERMISSOES.include? consultaApi["access_level"]
+isValidGitLabFileLock = !arrayGitLabFileLock.nil? && arrayGitLabFileLock.length != 0
+existeArquivoComum = (arrayArquivosModificados & arrayGitLabFileLock).length != 0
+
+if ( !isAcessoPermitido && (arrayArquivosModificados.include? '.gitlabfilelock') )
+   puts "******************************************************"
+   puts "****************** GitLab File Lock ******************"
+   puts "Arquivo .gitlabfilelock so pode ser modificado pelo administrador do repositorio"
+   puts "******************************************************"
+   exit 1
 end
+
+if ( !isAcessoPermitido && isValidGitLabFileLock && existeArquivoComum )
+   puts "******************************************************"
+   puts "****************** GitLab File Lock ******************"
+   puts "1) Arquivo travado pelo ADM do repositorio."
+   puts "2) Para conseguir realizar o PUSH, reverta o(s) arquivo(s) abaixo informado(s) para a revisao anterior ao commit que o modificou."
+   puts "------------------------------------------------------"
+   puts (arrayArquivosModificados & arrayGitLabFileLock)
+   puts "------------------------------------------------------"
+   puts "******************************************************"
+   exit 1
+end
+
+exit 1
